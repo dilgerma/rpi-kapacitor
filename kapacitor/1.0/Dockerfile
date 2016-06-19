@@ -1,15 +1,14 @@
-FROM buildpack-deps:jessie-curl
+FROM resin/rpi-raspbian:jessie
+Maintainer martin dilger <martin@effectivetrainings.de>
 
-RUN gpg \
-    --keyserver hkp://ha.pool.sks-keyservers.net \
-    --recv-keys 05CE15085FC09D18E99EFB22684A14CF2582E0C5
+RUN apt-get update && \
+    apt-get install wget
 
-ENV KAPACITOR_VERSION 1.0.0~beta1
-RUN wget -q https://dl.influxdata.com/kapacitor/releases/kapacitor_${KAPACITOR_VERSION}_amd64.deb.asc && \
-    wget -q https://dl.influxdata.com/kapacitor/releases/kapacitor_${KAPACITOR_VERSION}_amd64.deb && \
-    gpg --batch --verify kapacitor_${KAPACITOR_VERSION}_amd64.deb.asc kapacitor_${KAPACITOR_VERSION}_amd64.deb && \
-    dpkg -i kapacitor_${KAPACITOR_VERSION}_amd64.deb && \
-    rm -f kapacitor_${KAPACITOR_VERSION}_amd64.deb*
+
+ENV KAPACITOR_VERSION 1.0.0~beta1_armhf
+RUN wget --no-check-certificate https://dl.influxdata.com/kapacitor/releases/kapacitor_${KAPACITOR_VERSION}.deb && \
+    dpkg -i kapacitor_${KAPACITOR_VERSION}.deb && \
+    rm -f kapacitor_${KAPACITOR_VERSION}.deb*
 
 EXPOSE 9092
 
