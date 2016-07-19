@@ -8,6 +8,7 @@ ENV KAPACITOR_VERSION 1.0.0~beta3_armhf
 RUN wget --no-check-certificate https://dl.influxdata.com/kapacitor/releases/kapacitor_${KAPACITOR_VERSION}.deb && \
     dpkg -i kapacitor_${KAPACITOR_VERSION}.deb && \
     rm -f kapacitor_${KAPACITOR_VERSION}.deb*
+COPY kapacitor.conf /etc/kapacitor/kapacitor.conf
 
 EXPOSE 9092
 
